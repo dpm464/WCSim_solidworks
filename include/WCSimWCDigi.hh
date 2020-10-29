@@ -70,6 +70,7 @@ private:
    */
   std::map<int, std::vector<int> > fDigiComp;
   std::map<int, G4int>    primaryParentID; ///< Primary parent ID of the Hit (do not use for Digits)
+   std::map<int, G4int>    refTrackID; 
   std::map<int, G4int>    reflectorID; ///< Primary parent ID of the Hit (do not use for Digits)
   std::map<int, G4float>    photonStartTime; ///< Primary parent ID of the Hit (do not use for Digits)
   std::map<int, G4ThreeVector>    photonStartPos; ///< Start point of the photon of the Hit (do not use for Digits)
@@ -95,6 +96,7 @@ public:
   inline void SetTime(G4int gate, G4float T)    {time[gate]   = T;};
   inline void SetPreSmearTime(G4int gate, G4float T)    {time_presmear[gate]   = T;};
   inline void SetParentID(G4int gate, G4int parent) { primaryParentID[gate] = parent; };
+  inline void SetRefTrackID(G4int gate, G4int refparent) { refTrackID[gate] = refparent; };
   inline void SetReflectorID(G4int gate, G4int reflector) {reflectorID[gate] = reflector;};
   inline void SetPhotonStartTime(G4int gate, G4float time) { photonStartTime[gate] = time; };
   inline void SetPhotonStartPos(G4int gate, const G4ThreeVector &position) { photonStartPos[gate] = position; };
@@ -114,6 +116,7 @@ public:
 
 
   inline G4int          GetParentID(int gate)    { return primaryParentID[gate];};
+  inline G4int          GetRefTrackID(int gate)    { return refTrackID[gate];};
   inline G4int          GetReflectorID(int gate)    { return reflectorID[gate];};
   inline G4float        GetPhotonStartTime(int gate)    { return photonStartTime[gate];};
   inline G4ThreeVector  GetPhotonStartPos(int gate)    { return photonStartPos[gate];};

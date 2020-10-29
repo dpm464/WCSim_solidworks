@@ -86,13 +86,13 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
   WCSimTrackInformation* trackinfo 
     = (WCSimTrackInformation*)(aStep->GetTrack()->GetUserInformation());
-  
+  G4int primTrackID;
   G4int primParentID = -1;
   G4float photonStartTime;
   G4ThreeVector photonStartPos;
   if (trackinfo) {
     //Skip secondaries and match to mother process, eg. muon, decay particle, gamma from pi0/nCapture.
-    primParentID = trackinfo->GetPrimaryParentID();  //!= ParentID.
+        primParentID = trackinfo->GetPrimaryParentID();  //!= ParentID.
     photonStartTime = trackinfo->GetPhotonStartTime();
     photonStartPos = trackinfo->GetPhotonStartPos();
   }
@@ -104,6 +104,7 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
 
   G4int    trackID           = aStep->GetTrack()->GetTrackID();
+  // std::cout<<"trackid =  "<<trackID<<std::endl;
   G4String volumeName        = aStep->GetTrack()->GetVolume()->GetName();
   
   G4double energyDeposition  = aStep->GetTotalEnergyDeposit();
@@ -159,15 +160,15 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 //    tubeTag << theMother->GetName() << ":";
 
 //  tubeTag << thePhysical->GetName(); 
-	std::cout <<"WCSimWCSD"<<  theTouchable->GetHistoryDepth() << std::endl;
+//	std::cout <<"WCSimWCSD"<<  theTouchable->GetHistoryDepth() << std::endl;
   for (G4int i = theTouchable->GetHistoryDepth()-1 ; i >= 0; i--){
     tubeTag << ":" << theTouchable->GetVolume(i)->GetName();
     tubeTag << "-" << theTouchable->GetCopyNumber(i);
 	
-	std::cout << ":" << theTouchable->GetVolume(i)->GetName();
-	std::cout << "-" << theTouchable->GetCopyNumber(i);
+    //	std::cout << ":" << theTouchable->GetVolume(i)->GetName();
+    //	std::cout << "-" << theTouchable->GetCopyNumber(i);
   }
-	std::cout << std::endl;
+  //std::cout << std::endl;
 
   //  tubeTag << ":" << theTouchable->GetVolume(i)->GetCopyNo(); 
 
@@ -178,7 +179,7 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
   // Get the tube ID from the tubeTag
   G4int replicaNumber = WCSimDetectorConstruction::GetTubeID(tubeTag.str());
-	std::cout <<"replicaNumber = " << replicaNumber << std::endl;
+  //	std::cout <<"replicaNumber = " << replicaNumber << std::endl;
     
   G4float theta_angle = 0.;
   G4float effectiveAngularEfficiency = 0.;
@@ -233,6 +234,10 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 	   newHit->SetNReflectorHit(reflectorTag.size());
 	for(unsigned ijx=0; ijx<reflectorTag.size(); ijx++)
 	{
+	  G4int reflectortrackID= reflectorTag[ijx].trackID;
+	  newHit->AddRefTrackID(reflectortrackID);
+	   
+	  // std::cout<<" "<<reftrackID<<" "<<trackID<<std::endl;
 		if(trackID == reflectorTag[ijx].trackID) 
 		{
 		G4int reflectorID= reflectorTag[ijx].tubeID;
@@ -258,22 +263,24 @@ G4bool WCSimWCSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 	   // Set the hitMap value to the collection hit number
 	   PMTHitMap[replicaNumber] = hitsCollection->insert( newHit );
 	   (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPe(hitTime);
+	   
 	   (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddParentID(primParentID);
 	   (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonStartTime(photonStartTime);
 	   (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonStartPos(photonStartPos);
 	   (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonEndPos(worldPosition);
-	  std::cout<<"Photon ---> Start Pos: "<<G4BestUnit(photonStartPos,"Length")<<" End Pos: "<<G4BestUnit(worldPosition,"Length") <<" StartTime: "<<G4BestUnit(photonStartTime,"Time")<< std::endl; 
+	   // std::cout<<"Photon ---> Start Pos: "<<G4BestUnit(photonStartPos,"Length")<<" End Pos: "<<G4BestUnit(worldPosition,"Length") <<" StartTime: "<<G4BestUnit(photonStartTime,"Time")<< std::endl; 
 	   //     if ( particleDefinition != G4OpticalPhoton::OpticalPhotonDefinition() )
 	   //       newHit->Print();
 	     
 	 }
        else {
+
 	 (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPe(hitTime);
 	 (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddParentID(primParentID);
 	 (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonStartTime(photonStartTime);
 	 (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonStartPos(photonStartPos);
 	 (*hitsCollection)[PMTHitMap[replicaNumber]-1]->AddPhotonEndPos(worldPosition);
-	std::cout<<"Photon ---> Start Pos: "<<G4BestUnit(photonStartPos,"Length")<<" End Pos: "<<G4BestUnit(worldPosition,"Length") <<" StartTime: "<<G4BestUnit(photonStartTime,"Time")<< std::endl; 
+	 //	std::cout<<"Photon ---> Start Pos: "<<G4BestUnit(photonStartPos,"Length")<<" End Pos: "<<G4BestUnit(worldPosition,"Length") <<" StartTime: "<<G4BestUnit(photonStartTime,"Time")<< std::endl; 
        }
      }
   }

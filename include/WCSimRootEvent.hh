@@ -86,6 +86,7 @@ class WCSimRootCherenkovHit : public TObject {
 
 private:
   Int_t fTubeID;
+   Int_t fTrackID;
 Int_t fIsHitReflector;
   Int_t fmPMTID;
   Int_t fmPMT_PMTID;
@@ -94,17 +95,20 @@ Int_t fIsHitReflector;
 public:
   WCSimRootCherenkovHit() {}
   WCSimRootCherenkovHit(Int_t tubeID,
+			Int_t trackID,
 			Int_t fiHR,
 			Int_t totalPe[2]);
 
   WCSimRootCherenkovHit(Int_t tubeID,
+			Int_t trackID,
 			Int_t fiHR,
 			Int_t mPMTID,
 			Int_t mPMT_PMTID,
 			Int_t totalPe[2]);
 
   virtual ~WCSimRootCherenkovHit() { }
-
+  
+  Int_t GetTrackID()       const { return fTrackID;}
   Int_t GetTubeID()       const { return fTubeID;}
   Int_t GetIsHitReflector()       const { return fIsHitReflector;}
   Int_t GetmPMTID()       const { return fmPMTID;}
@@ -118,17 +122,18 @@ public:
 class WCSimRootReflectorHit : public TObject {
 
 private:
+   Int_t   fRefTrackID;
   Int_t fReflectorID;
   Float_t fReflectorPos[3];
   //Int_t fReflectorID.size();
 public:
   WCSimRootReflectorHit() {}
-  WCSimRootReflectorHit(Int_t reflectorID, Float_t reflectorPos[3]);//,Int_t reflectorID.size());
+  WCSimRootReflectorHit( Int_t refTrackID, Int_t reflectorID, Float_t reflectorPos[3]);//,Int_t reflectorID.size());
 
  // WCSimRootReflectorHit(Int_t reflectorID);
 
   virtual ~WCSimRootReflectorHit() { }
-
+ Int_t     GetRefTrackID() { return fRefTrackID;}
   Int_t GetReflectorID()       const { return fReflectorID;}
   Float_t  GetReflectorPos(int j)  { return(j<3) ? fReflectorPos[j]:0;}
 //Int_t GetNReflectorHit(int i) const { return (i<reflectorID.size()) ? fReflectors.size()[i]: 0;}
@@ -439,6 +444,7 @@ public:
   TClonesArray        *GetTracks() const {return fTracks;}
 
   WCSimRootCherenkovHit   *AddCherenkovHit(Int_t                tubeID,
+					   Int_t                trackID,
 					   Int_t		iHR,
 					   Int_t                mPMTID,
 					   Int_t                mPMT_PMTID,
@@ -446,9 +452,11 @@ public:
 					  std::vector<Int_t>   primParID,
 					  std::vector<Float_t>   photonStartTime,
 					  std::vector<TVector3>   photonStartPos,
-					  std::vector<TVector3>   photonEndPos,	
+					  std::vector<TVector3>   photonEndPos,
+					  std::vector<Int_t>   refTrackID, 
 					  std::vector<Int_t>   refID,
 					 std::vector<TVector3>  reflectorPos);
+  
   TClonesArray        *GetCherenkovHits() const {return fCherenkovHits;}
   TClonesArray        *GetCherenkovHitTimes() const {return fCherenkovHitTimes;}
   

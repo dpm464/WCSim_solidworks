@@ -177,21 +177,25 @@ void WCSimWCPMT::MakePeCorrection(WCSimWCHitsCollection* WCHC)
 	     // (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetReflectorPos(ip,reflectorpos);
 	    }
       
-	  } // Loop over hits in each PMT
-	  for (G4int ip =0; ip < (*WCHC)[i]->GetNReflectorHit(); ip++){
-	    int reflector_id = (*WCHC)[i]->GetReflectorID(ip);
-	    G4ThreeVector reflectorpos = (*WCHC)[i]->GetReflectorPos(ip);
+	   // Loop over hits in each PMT
+	  for (G4int io =0; io < (*WCHC)[i]->GetNReflectorHit(); io++){
+	     int reflectortrack_id = (*WCHC)[i]->GetRefTrackID(io);
+	     //std::cout<<" "<<reflectortrack_id<<std::endl;
+	    int reflector_id = (*WCHC)[i]->GetReflectorID(io);
+	    G4ThreeVector reflectorpos = (*WCHC)[i]->GetReflectorPos(io);
 	    if ( DigiHitMapPMT[tube] == 0) { //me: this loop is managing if the hit already exists or not
 	      WCSimWCDigi* Digi = new WCSimWCDigi();
-	      Digi->SetReflectorID(ip,reflector_id);
-	     Digi->SetReflectorPos(ip,reflectorpos);
+	      Digi->SetRefTrackID(io,reflectortrack_id);
+	      Digi->SetReflectorID(io,reflector_id);
+	      Digi->SetReflectorPos(io,reflectorpos);
 	    }	
 	    else {
-	      (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetReflectorID(ip,reflector_id); 
-	      (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetReflectorPos(ip,reflectorpos);
+	       (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetRefTrackID(io,reflectortrack_id); 
+	      (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetReflectorID(io,reflector_id); 
+	      (*DigitsCollection)[DigiHitMapPMT[tube]-1]->SetReflectorPos(io,reflectorpos);
 	    }
 	}
     }// Loop over PMTs
 }
-
+}
 

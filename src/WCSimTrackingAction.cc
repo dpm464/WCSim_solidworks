@@ -10,7 +10,7 @@
 
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
-
+#include "WCSimWCSD.hh"
 WCSimTrackingAction::WCSimTrackingAction()
 {
 
@@ -50,7 +50,8 @@ void WCSimTrackingAction::PreUserTrackingAction(const G4Track* aTrack)
   // and store them in output file. Difficult to control them all, so best only
   // use for visualization, not for storing in ROOT.
 
-
+ WCSimWCSD *pSD = WCSimWCSD::aSDPointer; 
+  pSD->reflectorTag.clear();
   if ( aTrack->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition()
        || G4UniformRand() < percentageOfCherenkovPhotonsToDraw/100. )
     {

@@ -66,6 +66,7 @@ class WCSimWCHit : public G4VHit
   void SetOrientation  (G4ThreeVector xyz)          { orient = xyz; };
   void SetRot          (G4RotationMatrix rotMatrix) { rot = rotMatrix; };
   void SetLogicalVolume(G4LogicalVolume* logV)      { pLogV = logV;}
+  void AddRefTrackID     (G4int refTrackID) { reflectorTrackID.push_back(refTrackID); }
   void AddParentID     (G4int primParentID) { primaryParentID.push_back(primParentID); }
   void AddPhotonStartTime (G4float photStartTime) { photonStartTime.push_back(photStartTime); }
   void AddPhotonStartPos  (const G4ThreeVector &photStartPos) { photonStartPos.push_back(photStartPos); }
@@ -82,7 +83,7 @@ class WCSimWCHit : public G4VHit
 
     if (totalPe > maxPe) 
       maxPe = totalPe;
-	std::cout << "maxPe" << maxPe << std::endl;
+    //	std::cout << "maxPe" << maxPe << std::endl;
     time.push_back(hitTime);
   }
 /*void AddRefID(G4float hitTime)
@@ -96,7 +97,8 @@ reflectorID.size()++;
 
 
   G4int         GetTubeID()     { return tubeID; };
- G4int		GetNReflectorHit()	{return reflectorSize;};
+  G4int		GetNReflectorHit()	{return reflectorSize;};
+  G4int         GetRefTrackID(int j) { return reflectorTrackID[j];};
   G4int         GetReflectorID(int j)     { return reflectorID[j]; };
   G4int         GetIsHitReflector()     { return IsHitReflector; };
   G4int         GetTrackID()    { return trackID; };
@@ -188,6 +190,7 @@ reflectorID.size()++;
   //G4int                 reflectorID.size();
   std::vector<G4float>  time;
   std::vector<G4int>    primaryParentID;
+  std::vector<G4int>    reflectorTrackID;
   std::vector<G4int>    reflectorID;
   std::vector<G4float>  photonStartTime;
   std::vector<G4ThreeVector> photonStartPos;

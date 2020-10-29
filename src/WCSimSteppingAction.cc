@@ -63,19 +63,19 @@ colNameFlag=0;
 		//me: took these lines from detector construction to include tubeTag
 		std::stringstream tubeTag;
 
-		 std::cout << "steppingAction" << theTouchable->GetHistoryDepth() << std::endl;
+		// std::cout << "steppingAction" << theTouchable->GetHistoryDepth() << std::endl;
 		for (G4int i = theTouchable->GetHistoryDepth()-1 ; i >= 1; i--){
 			tubeTag << ":" << theTouchable->GetVolume(i)->GetName();
 			tubeTag << "-" << theTouchable->GetCopyNumber(i);
 
-			std::cout << ":" << theTouchable->GetVolume(i)->GetName();
-			std::cout << "-" << theTouchable->GetCopyNumber(i);
+			//	std::cout << ":" << theTouchable->GetVolume(i)->GetName();
+			//	std::cout << "-" << theTouchable->GetCopyNumber(i);
 		}
 		tubeTag << ":" << colName<< "-0";
-		std::cout << ":"<< colName<< "-0"<<std::endl;
+		//	std::cout << ":"<< colName<< "-0"<<std::endl;
 	
 		G4int replicaNumber = WCSimDetectorConstruction::GetTubeID(tubeTag.str());
-		std::cout <<"replicaNumber = " << replicaNumber << std::endl;
+		//	std::cout <<"replicaNumber = " << replicaNumber << std::endl;
 		//till here
 		bool tagflag=true;
 		int trackid = track->GetTrackID();
@@ -232,42 +232,42 @@ colNameFlag=0;
 
 			if( (*pv)[i]->GetProcessType()==fOptical && (*pv)[i]->GetProcessSubType() == 32 )
 			{
-				G4cout<<" ProcessName:" << (*pv)[i]->GetProcessName() <<G4endl;				
+			  //	G4cout<<" ProcessName:" << (*pv)[i]->GetProcessName() <<G4endl;				
 				boundary = (G4OpBoundaryProcess*)(*pv)[i];
-				G4cout<<"  G4OpBoundaryProcessStatus:" << boundary->GetStatus() <<G4endl;
+				//	G4cout<<"  G4OpBoundaryProcessStatus:" << boundary->GetStatus() <<G4endl;
 				//		if(boundary-> GetStatus() ==4)
 				//		{			
 				//		if(vertex_r >= 49.5983 && vertex_r <= 50.4975)
 				//			if(thePrePoint->GetMaterial()->GetName()=="SilGel" && thePostPoint->GetMaterial()->GetName()=="Air")
 
 				//			{
-				std::cout << "vertex_x = " <<  vertex_x << std::endl;
-				std::cout << "vertex_y = " <<  vertex_y << std::endl;
-				std::cout << "vertex_z = " <<  vertex_z << std::endl;
+				//	std::cout << "vertex_x = " <<  vertex_x << std::endl;
+				//	std::cout << "vertex_y = " <<  vertex_y << std::endl;
+				//	std::cout << "vertex_z = " <<  vertex_z << std::endl;
 
 				//	if(vertex_x>=-340 && vertex_x<=-290 && vertex_z>=-345 && vertex_z<=-315)
 				//	{							
-				std::cout << "preposition_x = " << PrePosition_x << std::endl;
-				std::cout << "preposition_y = " << PrePosition(1) << std::endl;
-				std::cout << "preposition_z = " << PrePosition_z << std::endl;
-				std::cout << "PreStep Radius  = " << preposition_r << std::endl;
-				std::cout << "PreStep Material " << thePrePoint->GetMaterial()->GetName() << std::endl;
-				std::cout << "PreStep Momentum = " << PreMomentum << std::endl;
-				std::cout << "PreStep MomentumDirection = " << PreMomentumDirection << std::endl;
+				//	std::cout << "preposition_x = " << PrePosition_x << std::endl;
+				//	std::cout << "preposition_y = " << PrePosition(1) << std::endl;
+				//	std::cout << "preposition_z = " << PrePosition_z << std::endl;
+				//	std::cout << "PreStep Radius  = " << preposition_r << std::endl;
+				//std::cout << "PreStep Material " << thePrePoint->GetMaterial()->GetName() << std::endl;
+				//std::cout << "PreStep Momentum = " << PreMomentum << std::endl;
+				//	std::cout << "PreStep MomentumDirection = " << PreMomentumDirection << std::endl;
 
-				std::cout << "postposition_x = " << PostPosition_x << std::endl;
-				std::cout << "postposition_y = " << PostPosition(1)  << std::endl;
-				std::cout << "postposition_z = " << PostPosition_z << std::endl;
-				std::cout << "PostStep Radius  = " << postposition_r << std::endl;
-				std::cout << "PostStep Material " << thePostPoint->GetMaterial()->GetName() << std::endl;
-				std::cout << "PostStep Momentum = " << PostMomentum << std::endl;
-				std::cout << "PostStep MomentumDirection = " << PostMomentumDirection << std::endl;
+				//	std::cout << "postposition_x = " << PostPosition_x << std::endl;
+				//	std::cout << "postposition_y = " << PostPosition(1)  << std::endl;
+				//	std::cout << "postposition_z = " << PostPosition_z << std::endl;
+				//std::cout << "PostStep Radius  = " << postposition_r << std::endl;
+				//	std::cout << "PostStep Material " << thePostPoint->GetMaterial()->GetName() << std::endl;
+				//	std::cout << "PostStep Momentum = " << PostMomentum << std::endl;
+				//std::cout << "PostStep MomentumDirection = " << PostMomentumDirection << std::endl;
 				//G4double angle = acos((x*X + y*Y + z*Z)/((sqrt(x*x + y*y + z*z)) * (sqrt(X*X + Y*Y + Z*Z))));
 				//std::cout << " angle_calculated = " << angle << std::endl;
 				G4double Angle = PostMomentumDirection.angle(PreMomentumDirection);
-				std::cout << " angle_function = " << Angle << std::endl;
+				//	std::cout << " angle_function = " << Angle << std::endl;
 				G4double steplength = aStep -> GetStepLength();
-				std::cout << "steplength = " << steplength << std::endl;
+				//	std::cout << "steplength = " << steplength << std::endl;
 				//					aStep ->GetTrack() ->  SetTrackStatus(fKillTrackAndSecondaries);
 				//			}
 
@@ -284,7 +284,7 @@ colNameFlag=0;
 				if( (*pv)[j]->GetProcessType()==fOptical && (*pv)[j]->GetProcessSubType() == 32 )
 				{
 					boundary = (G4OpBoundaryProcess*)(*pv)[i];
-					std::cout << "boundary" << boundary << std::endl;
+					//std::cout << "boundary" << boundary << std::endl;
 					if(boundary-> GetStatus() ==4)
 					{			
 						if(thePrePoint->GetMaterial()->GetName()=="SilGel" && thePostPoint->GetMaterial()->GetName()=="Air")
