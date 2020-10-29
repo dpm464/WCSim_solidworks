@@ -99,3 +99,4 @@ Useful cmake commands:
 WCSim development is supported by the United States National Science Foundation.
 ```
 # WCSim_solidworks
+# WCSim_solidworks
